@@ -21,14 +21,15 @@ function response(room, msg, sender, isGroupChat, replier, imageDB) {
 }
 
 function botInMainRoom(room, msg, sender, isGroupChat, replier, imageDB) {
+  msg = msg.trim();
   if ((msg.indexOf('안녕') != -1 ||
       msg.indexOf('ㅎㅇ') != -1) &&
     HelloList.indexOf(sender) == -1) {
     sendHello(sender, replier);
     HelloList.push(sender);
-  } else if (msg.trim() == "@봇설명") {
+  } else if (msg == "@봇설명") {
     sendBotInfo(replier)
-  } else if (msg.trim() == "@공지사항") {
+  } else if (msg == "@공지사항") {
     sendNotice(replier)
   }
 }
