@@ -1,5 +1,6 @@
 const botName = "작명부탁";
 let HelloList = [];
+let NoticeList = [];
 
 function response(room, msg, sender, isGroupChat, replier, imageDB) {
   switch (room) {
@@ -64,4 +65,17 @@ function sendBotInfo(replier) {
     "저를 만들고 있는 사람은 길마이고\n" +
     "저가 있게 도와준 사람은 크앙박GY와 태연GY입니다."
   );
+}
+
+function sendNotice(replier) {
+  let sendMessage = "";
+  if (NoticeList.length > 0) {
+    sendMessage = "공지사항\n\n";
+    for (let i = 0; i < NoticeList.length; i++) {
+      sendMessage = sendMessage + ((i + 1) + ". " + NoticeList[i] + "\n");
+    }
+  } else {
+    sendMessage = "현재 등록된 공지사항이 없습니다.";
+  }
+  replier.reply(sendMessage);
 }
