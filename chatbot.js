@@ -1,3 +1,4 @@
+const botName = "작명부탁";
 let HelloList = [];
 
 function response(room, msg, sender, isGroupChat, replier, imageDB) {
@@ -22,9 +23,10 @@ function botInMainRoom(room, msg, sender, isGroupChat, replier, imageDB) {
   if ((msg.indexOf('안녕') != -1 ||
       msg.indexOf('ㅎㅇ') != -1) &&
     HelloList.indexOf(sender) == -1) {
-    replier.reply("안녕하세요 TeamGY길드 톡방에 오신것을 환영합니다")
+    sendHello(sender, replier);
     HelloList.push(sender);
   }
+
 }
 
 function botInDuneonsRoom(room, msg, sender, isGroupChat, replier, imageDB) {
@@ -33,4 +35,15 @@ function botInDuneonsRoom(room, msg, sender, isGroupChat, replier, imageDB) {
 
 function botInCoreManagerRoom(room, msg, sender, isGroupChat, replier, imageDB) {
 
+}
+
+function sendHello(sender, replier) {
+  replier.reply("안녕하세요\n" +
+    sender + "님\n" +
+    "TeamGY길드 톡방에 오신것을 환영합니다\n" +
+    "\n" +
+    "\n" +
+    "안녕하세요 저는 TeamGY의 봇입니다.\n" +
+    "앞으로 같이 즐거운 게임해요\n" +
+    "제가 궁금하면 @봇설명");
 }
