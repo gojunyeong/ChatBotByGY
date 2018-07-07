@@ -31,6 +31,12 @@ function botInMainRoom(room, msg, sender, isGroupChat, replier, imageDB) {
     sendBotInfo(replier)
   } else if (msg == "@공지사항") {
     sendNotice(replier)
+  } else if (msg == "@길전참고") {
+    sendBabo(sender, replier);
+    sendWarSupport(replier);
+  } else if (msg == "@이벤트") {
+    sendBabo(sender, replier);
+    sendEventInfo(replier);
   }
 }
 
@@ -79,4 +85,16 @@ function sendNotice(replier) {
     sendMessage = "현재 등록된 공지사항이 없습니다.";
   }
   replier.reply(sendMessage);
+}
+
+function sendBabo(sender, replier) {
+  replier.reply(sender + "바보");
+}
+
+function sendWarSupport(replier){
+
+}
+
+function sendEventInfo(replier){
+  
 }
