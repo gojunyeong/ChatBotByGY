@@ -1,25 +1,30 @@
+let HelloList = [];
+
 function response(room, msg, sender, isGroupChat, replier, imageDB) {
   switch (room) {
     case "TeamGY (세븐나이츠)":
-      botInMainRoom(room, msg, sender, isGroupChat, replier, imageDB)
+      botInMainRoom(room, msg, sender, isGroupChat, replier, imageDB);
       break;
     case "유지훈,이한솔,대랄기원,재희,박준영":
-      botInCoreManagerRoom(room, msg, sender, isGroupChat, replier, imageDB)
+    case "유지훈,이한솔,박준영,고준영,이태경":
+      botInCoreManagerRoom(room, msg, sender, isGroupChat, replier, imageDB);
       break;
     case "길던하GY":
-      botInDuneonsRoom(room, msg, sender, isGroupChat, replier, imageDB)
+      botInDuneonsRoom(room, msg, sender, isGroupChat, replier, imageDB);
       break;
     default:
+      replier.reply(room);
       break;
   }
 }
 
 function botInMainRoom(room, msg, sender, isGroupChat, replier, imageDB) {
-  if (msg.indexOf('안녕') != -1 ||
-    msg.indexOf('ㅎㅇ') != -1) {
+  if ((msg.indexOf('안녕') != -1 ||
+      msg.indexOf('ㅎㅇ') != -1) &&
+    HelloList.indexOf(sender) == -1) {
     replier.reply("안녕하세요 TeamGY길드 톡방에 오신것을 환영합니다")
+    HelloList.push(sender);
   }
-  replier.reply("현재 채팅방의 명칭은 GY메인톡방입니다.");
 }
 
 function botInDuneonsRoom(room, msg, sender, isGroupChat, replier, imageDB) {
