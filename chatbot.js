@@ -1,8 +1,11 @@
 const botName = "작명부탁";
-let HelloList = [];
-let NoticeList = [];
+let helloList = [];
+let noticeList = [];
+let warSupportList = [];
+let eventList = [];
 
 function response(room, msg, sender, isGroupChat, replier, imageDB) {
+  msg = msg.trim();
   switch (room) {
     case "TeamGY (세븐나이츠)":
       botInMainRoom(room, msg, sender, isGroupChat, replier, imageDB);
@@ -21,12 +24,11 @@ function response(room, msg, sender, isGroupChat, replier, imageDB) {
 }
 
 function botInMainRoom(room, msg, sender, isGroupChat, replier, imageDB) {
-  msg = msg.trim();
   if ((msg.indexOf('안녕') != -1 ||
       msg.indexOf('ㅎㅇ') != -1) &&
-    HelloList.indexOf(sender) == -1) {
+    helloList.indexOf(sender) == -1) {
     sendHello(sender, replier);
-    HelloList.push(sender);
+    helloList.push(sender);
   } else if (msg == "@봇설명") {
     sendBotInfo(replier)
   } else if (msg == "@공지사항") {
@@ -76,10 +78,10 @@ function sendBotInfo(replier) {
 
 function sendNotice(replier) {
   let sendMessage = "";
-  if (NoticeList.length > 0) {
+  if (noticeList.length > 0) {
     sendMessage = "공지사항\n\n";
-    for (let i = 0; i < NoticeList.length; i++) {
-      sendMessage = sendMessage + ((i + 1) + ". " + NoticeList[i] + "\n");
+    for (let i = 0; i < noticeList.length; i++) {
+      sendMessage = sendMessage + ((i + 1) + ". " + noticeList[i] + "\n");
     }
   } else {
     sendMessage = "현재 등록된 공지사항이 없습니다.";
@@ -91,10 +93,28 @@ function sendBabo(sender, replier) {
   replier.reply(sender + "바보");
 }
 
-function sendWarSupport(replier){
-
+function sendWarSupport(replier) {
+  let sendMessage = "";
+  if (warSupportList.length > 0) {
+    sendMessage = "길드전 정보\n\n";
+    for (let i = 0; i < warSupportList.length; i++) {
+      sendMessage = sendMessage + ((i + 1) + ". " + warSupportList[i] + "\n");
+    }
+  } else {
+    sendMessage = "등록된 길드전 정보가 없습니다.";
+  }
+  replier.reply(sendMessage);
 }
 
-function sendEventInfo(replier){
-  
+function sendEventInfo(replier) {
+  let sendMessage = "";
+  if (eventList.length > 0) {
+    sendMessage = "이벤트 정보\n\n";
+    for (let i = 0; i < eventList.length; i++) {
+      sendMessage = sendMessage + ((i + 1) + ". " + eventList[i] + "\n");
+    }
+  } else {
+    sendMessage = "등록된 이벤트 정보가 없습니다.";
+  }
+  replier.reply(sendMessage);
 }
