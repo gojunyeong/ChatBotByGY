@@ -3,6 +3,8 @@ let helloList = [];
 let noticeList = [];
 let warSupportList = [];
 let eventList = [];
+let dungeonTipList = [];
+
 
 function response(room, msg, sender, isGroupChat, replier, imageDB) {
   msg = msg.trim();
@@ -15,7 +17,7 @@ function response(room, msg, sender, isGroupChat, replier, imageDB) {
       botInCoreManagerRoom(room, msg, sender, isGroupChat, replier, imageDB);
       break;
     case "길던하GY":
-      botInDuneonsRoom(room, msg, sender, isGroupChat, replier, imageDB);
+      botInDungeonsRoom(room, msg, sender, isGroupChat, replier, imageDB);
       break;
     default:
       replier.reply(room);
@@ -29,25 +31,35 @@ function botInMainRoom(room, msg, sender, isGroupChat, replier, imageDB) {
     helloList.indexOf(sender) == -1) {
     sendHello(sender, replier);
     helloList.push(sender);
-  } else if (msg == "@봇설명") {
-    sendBotInfo(replier)
-  } else if (msg == "@공지사항") {
-    sendNotice(replier)
-  } else if (msg == "@길전참고") {
-    sendWarSupport(replier);
-  } else if (msg == "@이벤트") {
-    sendEventInfo(replier);
+  } else {
+    switch (msg) {
+      case "@봇설명":
+        sendBotInfo(replier)
+      case "@공지사항":
+        sendNotice(replier)
+      case "@길전참고":
+        sendWarSupport(replier);
+        break;
+      case "@이벤트":
+        sendEventInfo(replier);
+        break;
+      default:
+        sendBabo(sender, replier);
+        break;
+    }
   }
 }
 
-function botInDuneonsRoom(room, msg, sender, isGroupChat, replier, imageDB) {
+function botInDungeonsRoom(room, msg, sender, isGroupChat, replier, imageDB) {
   if (msg.indexOf('마무리') != -1) {
-    sendDeugeonTip(msg, replier);
+    sendDungeonTip(msg, replier);
   }
 }
 
 function botInCoreManagerRoom(room, msg, sender, isGroupChat, replier, imageDB) {
+  if (msg == '!사용법') {
 
+  }
 }
 
 function sendHello(sender, replier) {
@@ -119,7 +131,7 @@ function sendEventInfo(replier) {
   replier.reply(sendMessage);
 }
 
-function sendDeugeonTip(msg, replier) {
+function sendDungeonTip(msg, replier) {
   stage = msg.replace(/\d{1,2}.\s*((\d{1,2})-(\d{1,2}))\s*마무리/, "$1 마무리");
   replier.reply(stage);
 }
