@@ -25,8 +25,11 @@ function botInMainRoom(room, msg, sender, isGroupChat, replier, imageDB) {
     HelloList.indexOf(sender) == -1) {
     sendHello(sender, replier);
     HelloList.push(sender);
+  } else if (msg.trim() == "@봇설명") {
+    sendBotInfo(replier)
+  } else if (msg.trim() == "@공지사항") {
+    sendNotice(replier)
   }
-
 }
 
 function botInDuneonsRoom(room, msg, sender, isGroupChat, replier, imageDB) {
@@ -46,4 +49,19 @@ function sendHello(sender, replier) {
     "안녕하세요 저는 TeamGY의 봇입니다.\n" +
     "앞으로 같이 즐거운 게임해요\n" +
     "제가 궁금하면 @봇설명");
+}
+
+function sendBotInfo(replier) {
+  replier.reply("안녕하세요\n" +
+    "저는 TeamGY의 봇 " + botName + "입니다.\n" +
+    "저는 이 방에서 공지사항등 각종 정보를 알려주는 봇 입니다.\n" +
+    "제가 아는 선에서 정보를 드릴게요\n" +
+    "저를 사용 하는 명령어 들이에요\n" +
+    "@공지사항\n" +
+    "@길전참고\n" +
+    "@이벤트\n" +
+    "\n" +
+    "저를 만들고 있는 사람은 길마이고\n" +
+    "저가 있게 도와준 사람은 크앙박GY와 태연GY입니다."
+  );
 }
