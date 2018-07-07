@@ -41,8 +41,8 @@ function botInMainRoom(room, msg, sender, isGroupChat, replier, imageDB) {
 }
 
 function botInDuneonsRoom(room, msg, sender, isGroupChat, replier, imageDB) {
-  if(msg.indexOf('마무리')!=-1){
-    sendDeugeonTip(msg,replier);
+  if (msg.indexOf('마무리') != -1) {
+    sendDeugeonTip(msg, replier);
   }
 }
 
@@ -119,6 +119,7 @@ function sendEventInfo(replier) {
   replier.reply(sendMessage);
 }
 
-function sendDeugeonTip(msg,replier){
+function sendDeugeonTip(msg, replier) {
   stage = msg.replace(/\d{1,2}.\s*((\d{1,2})-(\d{1,2}))\s*마무리/, "$1 마무리");
+  replier.reply(stage);
 }
