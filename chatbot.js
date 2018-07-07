@@ -1,20 +1,31 @@
 function response(room, msg, sender, isGroupChat, replier, imageDB) {
-    /** @param {String} room - 방 이름
-      * @param {String} msg - 메세지 내용
-      * @param {String} sender - 발신자 이름
-      * @param {Boolean} isGroupChat - 단체채팅 여부
-      * @param {Object} replier - 세션 캐싱 답장 메소드 객체
-      * @param {Object} imageDB - 프로필 이미지와 수신된 이미지 캐싱 객체
-      * @method imageDB.getImage() - 수신된 이미지가 있을 경우 Base64 인코딩 되어있는 JPEG 이미지 반환, 기본 값 null
-      * @method imageDB.getProfileImage() - Base64 인코딩 되어있는 JPEG 프로필 이미지 반환, 기본 값 null
-      * @method replier.reply("문자열") - 메시지가 도착한 방에 답장을 보내는 메소드 */
-      	if (msg.indexOf ('안녕')!=-1){
-      		replier.reply ("안녕하세요 TeamGY길드 톡방에 오신것을 환영합니다")
-      		}
-      		
+  switch (room) {
+    case "TeamGY (세븐나이츠)":
+      botInMainRoom(room, msg, sender, isGroupChat, replier, imageDB)
+      break;
+    case "유지훈,이한솔,대랄기원,재희,박준영":
+      botInCoreManagerRoom(room, msg, sender, isGroupChat, replier, imageDB)
+      break;
+    case "길던하GY":
+      botInDuneonsRoom(room, msg, sender, isGroupChat, replier, imageDB)
+      break;
+    default:
+      break;
+  }
 }
-//이 아래 4가지 메소드는 스크립트 액티비티를 수정할 때 사용하는 메소드들
-function onCreate(savedInstanceState, activity) {}
-function onResume(activity) {}
-function onPause(activity) {}
-function onStop(activity) {}
+
+function botInMainRoom(room, msg, sender, isGroupChat, replier, imageDB) {
+  if (msg.indexOf('안녕') != -1 ||
+    msg.indexOf('ㅎㅇ') != -1) {
+    replier.reply("안녕하세요 TeamGY길드 톡방에 오신것을 환영합니다")
+  }
+  replier.reply("현재 채팅방의 명칭은 GY메인톡방입니다.");
+}
+
+function botInDuneonsRoom(room, msg, sender, isGroupChat, replier, imageDB) {
+  replier.reply("현재 채팅방의 명칭은 GY길던톡방입니다.");
+}
+
+function botInCoreManagerRoom(room, msg, sender, isGroupChat, replier, imageDB) {
+  replier.reply("현재 채팅방의 명칭은 GY운영진톡방입니다.");
+}
