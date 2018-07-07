@@ -35,8 +35,10 @@ function botInMainRoom(room, msg, sender, isGroupChat, replier, imageDB) {
     switch (msg) {
       case "@봇설명":
         sendBotInfo(replier)
+        break;
       case "@공지사항":
         sendNotice(replier)
+        break;
       case "@길전참고":
         sendWarSupport(replier);
         break;
