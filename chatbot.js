@@ -28,9 +28,9 @@ function botInMainRoom(room, msg, sender, isGroupChat, replier, imageDB) {
 }
 
 function botInDuneonsRoom(room, msg, sender, isGroupChat, replier, imageDB) {
-  replier.reply("현재 채팅방의 명칭은 GY길던톡방입니다.");
+
 }
 
 function botInCoreManagerRoom(room, msg, sender, isGroupChat, replier, imageDB) {
-  replier.reply("현재 채팅방의 명칭은 GY운영진톡방입니다.");
+
 }
