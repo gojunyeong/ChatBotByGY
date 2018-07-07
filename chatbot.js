@@ -34,16 +34,16 @@ function botInMainRoom(room, msg, sender, isGroupChat, replier, imageDB) {
   } else if (msg == "@공지사항") {
     sendNotice(replier)
   } else if (msg == "@길전참고") {
-    sendBabo(sender, replier);
     sendWarSupport(replier);
   } else if (msg == "@이벤트") {
-    sendBabo(sender, replier);
     sendEventInfo(replier);
   }
 }
 
 function botInDuneonsRoom(room, msg, sender, isGroupChat, replier, imageDB) {
-
+  if(msg.indexOf('마무리')!=-1){
+    sendDeugeonTip(msg,replier);
+  }
 }
 
 function botInCoreManagerRoom(room, msg, sender, isGroupChat, replier, imageDB) {
@@ -117,4 +117,8 @@ function sendEventInfo(replier) {
     sendMessage = "등록된 이벤트 정보가 없습니다.";
   }
   replier.reply(sendMessage);
+}
+
+function sendDeugeonTip(msg,replier){
+  stage = msg.replace(/\d{1,2}.\s*((\d{1,2})-(\d{1,2}))\s*마무리/, "$1 마무리");
 }
