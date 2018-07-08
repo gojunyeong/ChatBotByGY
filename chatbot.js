@@ -15,7 +15,7 @@ var dataSavePath = android.os.Environment
 let folder = new java.io.File(dataSavePath);
 folder.mkdirs();
 
-initData();
+//initData();
 ////////////////////// Call Responce Function Start //////////////////////
 function response(room, msg, sender, isGroupChat, replier, imageDB) {
   msg = msg.trim();
@@ -31,7 +31,6 @@ function response(room, msg, sender, isGroupChat, replier, imageDB) {
       botInDungeonsRoom(room, msg, sender, isGroupChat, replier, imageDB);
       break;
     default:
-      replier.reply(room);
       break;
   }
 }
@@ -104,7 +103,9 @@ function sendNotice(replier) {
   if (noticeList.length > 0) {
     sendMessage = "공지사항\n\n";
     for (let i = 0; i < noticeList.length; i++) {
-      sendMessage = sendMessage + ((i + 1) + ". " + noticeList[i] + "\n");
+      sendMessage = sendMessage + ((i + 1) + ". " + noticeList[i].title + "\n") +
+        "설명 : " + noticeList[i].description + "\n" +
+        "비고 : " + noticeList[i].more_info + "\n\n";
     }
   } else {
     sendMessage = "현재 등록된 공지사항이 없습니다.";
@@ -221,7 +222,7 @@ function addOperatorRoomFunctionBranch(sender, msg, replier) {
   }
 }
 
-function addNoticeFunction(msg) {
+function addNoticeFunction(msg, replier) {
   let arg = msg.replace('+공지', '').trim().split('/');
   let notice = {
     "title": arg[0],
@@ -259,15 +260,15 @@ function dropNoticeFunction(replier) {
 ////////////////////////// base function //////////////////////////
 
 function initData() {
-  noticeList = JSON.parse(loadData, "notice");
-  warSupportList = JSON.parse(warSupport, "warsupport");
-  eventList = JSON.parse(event, "event");
-  dungeonTipList = JSON.parse(dungeon, "dungeon");
-  voteList = JSON.parse(vote, "vote");
+  noticeList = JSON.parse(loadData("notice"));
+  warSupportList = JSON.parse(loadData("warsupport"));
+  eventList = JSON.parse(loadData("event"));
+  dungeonTipList = JSON.parse(loadData("dungeon"));
+  voteList = JSON.parse(loadData("vote"));
 }
 
 function saveData(data, name) {
-
+  return ""
 }
 
 function loadData(name) {
