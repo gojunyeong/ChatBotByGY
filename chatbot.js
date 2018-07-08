@@ -1,13 +1,22 @@
-const botName = "작명부탁";
+const botName = "규오";
 let helloList = [];
 let noticeList = [];
 let warSupportList = [];
 let eventList = [];
 let dungeonTipList = [];
 let voteList = {};
+var dataSavePath = android.os.Environment
+  .getExternalStorageDirectory()
+  .getAbsolutePath() + '/' +
+  'gybot/' +
+  'res/';
 
+//////////////////////////////// Init Data ////////////////////////////////
+let folder = new java.io.File(dataSavePath);
+folder.mkdirs();
+
+initData();
 ////////////////////// Call Responce Function Start //////////////////////
-
 function response(room, msg, sender, isGroupChat, replier, imageDB) {
   msg = msg.trim();
   switch (room) {
@@ -26,10 +35,7 @@ function response(room, msg, sender, isGroupChat, replier, imageDB) {
       break;
   }
 }
-
-
 ////////////////////// Main Room Bot Function Start //////////////////////
-
 function botInMainRoom(room, msg, sender, isGroupChat, replier, imageDB) {
   if ((msg.indexOf('안녕') != -1 ||
       msg.indexOf('ㅎㅇ') != -1) &&
@@ -46,6 +52,7 @@ function botInMainRoom(room, msg, sender, isGroupChat, replier, imageDB) {
 function sendMainRoomShowFunctionBranch(msg, sender, replier) {
   switch (msg) {
     case "@봇설명":
+    case "@봇정보":
       sendBotInfo(replier)
       break;
     case "@공지사항":
@@ -59,6 +66,7 @@ function sendMainRoomShowFunctionBranch(msg, sender, replier) {
       break;
     case "@투표":
       sendVoteInfo(replier);
+      break;
     default:
       sendBabo(sender, replier);
       break;
@@ -135,8 +143,27 @@ function sendEventInfo(replier) {
   replier.reply(sendMessage);
 }
 
-function voteMainRoomDetail(msg, sender, replier) {
+function saveMainRoomServiceFunctionBranch(msg, sender, replier) {
+  arg = msg.split(' ')[0];
+  switch (arg) {
+    case '!투표':
+      addVoteSender(msg, sender, replier);
+      break;
+    case '!잡담모드':
 
+    default:
+      replier.reply('아직 미구현 입니다.')
+      break;
+  }
+}
+
+function addVoteSender(msg, sender, replier) {
+
+}
+
+function setBotName(msg) {
+  botName = msg.split(' ')[1];
+  replier.reply
 }
 
 ////////////////////// Dungeons Room Bot Function Start //////////////////////
@@ -156,21 +183,34 @@ function sendDungeonTip(msg, replier) {
 
 function botInOperatorRoom(room, msg, sender, isGroupChat, replier, imageDB) {
   if (msg.indexOf('?') == 0) {
-
+    helpOperatorRoomFunctionBranch(sender, msg, replier);
   } else if (msg.indexOf('@') == 0) {
-
+    sendOperatorRoomFunctionBranch(sender, msg, replier);
   } else if (msg.indexOf('!') == 0) {
-
+    updateOperatorRoomFunctionBranch(sender, msg, replier);
   } else if (msg.indexOf('+') == 0) {
-    addFunctionBranch(sender, msg, replier);
+    addOperatorRoomFunctionBranch(sender, msg, replier);
   } else if (msg.indexOf('-') == 0) {
-    deleteFunctionBranch(sender, msg, replier);
+    deleteOperatorRoomFunctionBranch(sender, msg, replier);
   } else if (msg.indexOf('^') == 0) {
-    dropFunctionBranch(sender, msg, replier);
+    dropOperatorRoomFunctionBranch(sender, msg, replier);
   }
 }
 
-function addFunctionBranch(sender, msg, replier) {
+function helpOperatorRoomFunctionBranch(sender, msg, replier) {
+
+}
+
+function sendOperatorRoomFunctionBranch(sender, msg, replier) {
+
+}
+
+function updateOperatorRoomFunctionBranch(sender, msg, replier) {
+
+}
+
+
+function addOperatorRoomFunctionBranch(sender, msg, replier) {
   let arg = msg.split(' ');
   switch (arg[0]) {
     case '+공지':
@@ -192,7 +232,7 @@ function addNoticeFunction(msg) {
   replier.reply(notice.title + "를 공지사항에 등록 하였습니다.");
 }
 
-function deleteFunctionBranch(sender, msg, replier) {
+function deleteOperatorRoomFunctionBranch(sender, msg, replier) {
 
 }
 
@@ -200,7 +240,7 @@ function deleteNoticeFunction(msg, replier) {
 
 }
 
-function dropFunctionBranch(sender, msg, replier) {
+function dropOperatorRoomFunctionBranch(sender, msg, replier) {
   switch (msg) {
     case '^공지':
       dropNoticeFunction(replier);
@@ -214,4 +254,22 @@ function dropFunctionBranch(sender, msg, replier) {
 function dropNoticeFunction(replier) {
   noticeList = [];
   replier.reply("모든 공지사항이 삭제되었습니다");
+}
+
+////////////////////////// base function //////////////////////////
+
+function initData() {
+  noticeList = JSON.parse(loadData, "notice");
+  warSupportList = JSON.parse(warSupport, "warsupport");
+  eventList = JSON.parse(event, "event");
+  dungeonTipList = JSON.parse(dungeon, "dungeon");
+  voteList = JSON.parse(vote, "vote");
+}
+
+function saveData(data, name) {
+
+}
+
+function loadData(name) {
+
 }
