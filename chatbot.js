@@ -4,7 +4,9 @@ let noticeList = [];
 let warSupportList = [];
 let eventList = [];
 let dungeonTipList = [];
+let voteList = {};
 
+////////////////////// Call Responce Function Start //////////////////////
 
 function response(room, msg, sender, isGroupChat, replier, imageDB) {
   msg = msg.trim();
@@ -14,7 +16,7 @@ function response(room, msg, sender, isGroupChat, replier, imageDB) {
       break;
     case "유지훈,이한솔,대랄기원,재희,박준영":
     case "유지훈,이한솔,박준영,고준영,이태경":
-      botInCoreManagerRoom(room, msg, sender, isGroupChat, replier, imageDB);
+      botInOperatorRoom(room, msg, sender, isGroupChat, replier, imageDB);
       break;
     case "길던하GY":
       botInDungeonsRoom(room, msg, sender, isGroupChat, replier, imageDB);
@@ -25,42 +27,41 @@ function response(room, msg, sender, isGroupChat, replier, imageDB) {
   }
 }
 
+
+////////////////////// Main Room Bot Function Start //////////////////////
+
 function botInMainRoom(room, msg, sender, isGroupChat, replier, imageDB) {
   if ((msg.indexOf('안녕') != -1 ||
       msg.indexOf('ㅎㅇ') != -1) &&
     helloList.indexOf(sender) == -1) {
     sendHello(sender, replier);
     helloList.push(sender);
-  } else {
-    switch (msg) {
-      case "@봇설명":
-        sendBotInfo(replier)
-        break;
-      case "@공지사항":
-        sendNotice(replier)
-        break;
-      case "@길전참고":
-        sendWarSupport(replier);
-        break;
-      case "@이벤트":
-        sendEventInfo(replier);
-        break;
-      default:
-        sendBabo(sender, replier);
-        break;
-    }
+  } else if (msg.indexOf('@') == 0) {
+    sendMainRoomShowFunctionBranch(msg, sender, replier);
+  } else if (msg.indexOf('!') == 0) {
+    saveMainRoomServiceFunctionBranch(msg, sender, replier);
   }
 }
 
-function botInDungeonsRoom(room, msg, sender, isGroupChat, replier, imageDB) {
-  if (msg.indexOf('마무리') != -1) {
-    sendDungeonTip(msg, replier);
-  }
-}
-
-function botInCoreManagerRoom(room, msg, sender, isGroupChat, replier, imageDB) {
-  if (msg == '!사용법') {
-
+function sendMainRoomShowFunctionBranch(msg, sender, replier) {
+  switch (msg) {
+    case "@봇설명":
+      sendBotInfo(replier)
+      break;
+    case "@공지사항":
+      sendNotice(replier)
+      break;
+    case "@길전참고":
+      sendWarSupport(replier);
+      break;
+    case "@이벤트":
+      sendEventInfo(replier);
+      break;
+    case "@투표":
+      sendVoteInfo(replier);
+    default:
+      sendBabo(sender, replier);
+      break;
   }
 }
 
@@ -104,7 +105,8 @@ function sendNotice(replier) {
 }
 
 function sendBabo(sender, replier) {
-  replier.reply(sender + "바보");
+  replier.reply(sender + " 바보\n" +
+    "사용법 좀 읽어요!!! @봇설명");
 }
 
 function sendWarSupport(replier) {
@@ -133,7 +135,83 @@ function sendEventInfo(replier) {
   replier.reply(sendMessage);
 }
 
+function voteMainRoomDetail(msg, sender, replier) {
+
+}
+
+////////////////////// Dungeons Room Bot Function Start //////////////////////
+
+function botInDungeonsRoom(room, msg, sender, isGroupChat, replier, imageDB) {
+  if (msg.indexOf('마무리') != -1) {
+    sendDungeonTip(msg, replier);
+  }
+}
+
 function sendDungeonTip(msg, replier) {
-  stage = msg.replace(/\d{1,2}.\s*((\d{1,2})-(\d{1,2}))\s*마무리/, "$1 마무리");
+  stage = msg.replace(/\d{1,2}.\s*((\d{1,2})-(\d{1,2}))\s*마무리.*/, "$1 마무리");
   replier.reply(stage);
+}
+
+////////////////////// Operator Room Bot Function Start //////////////////////
+
+function botInOperatorRoom(room, msg, sender, isGroupChat, replier, imageDB) {
+  if (msg.indexOf('?') == 0) {
+
+  } else if (msg.indexOf('@') == 0) {
+
+  } else if (msg.indexOf('!') == 0) {
+
+  } else if (msg.indexOf('+') == 0) {
+    addFunctionBranch(sender, msg, replier);
+  } else if (msg.indexOf('-') == 0) {
+    deleteFunctionBranch(sender, msg, replier);
+  } else if (msg.indexOf('^') == 0) {
+    dropFunctionBranch(sender, msg, replier);
+  }
+}
+
+function addFunctionBranch(sender, msg, replier) {
+  let arg = msg.split(' ');
+  switch (arg[0]) {
+    case '+공지':
+      addNoticeFunction(msg, replier);
+      break;
+    default:
+      sendBabo(sender, replier);
+  }
+}
+
+function addNoticeFunction(msg) {
+  let arg = msg.replace('+공지', '').trim().split('/');
+  let notice = {
+    "title": arg[0],
+    "description": arg[1],
+    "more_info": arg[2]
+  }
+  noticeList.push(notice);
+  replier.reply(notice.title + "를 공지사항에 등록 하였습니다.");
+}
+
+function deleteFunctionBranch(sender, msg, replier) {
+
+}
+
+function deleteNoticeFunction(msg, replier) {
+
+}
+
+function dropFunctionBranch(sender, msg, replier) {
+  switch (msg) {
+    case '^공지':
+      dropNoticeFunction(replier);
+      break;
+    default:
+      sendBabo(sendBabo, replier);
+      break;
+  }
+}
+
+function dropNoticeFunction(replier) {
+  noticeList = [];
+  replier.reply("모든 공지사항이 삭제되었습니다");
 }
